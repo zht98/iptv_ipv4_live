@@ -1,5 +1,4 @@
 import requests
-import chardet
 
 def fetch_and_filter():
     url = 'http://mdxgh.tpddns.cn:9999/new/mdzb.txt'
@@ -8,26 +7,12 @@ def fetch_and_filter():
     response = requests.get(url)
     raw_content = response.content  # 获取二进制数据
     
-    # 自动检测原始编码
-    # detected_encoding = chardet.detect(raw_content)['encoding']
-    # print(f"检测到的编码: {detected_encoding}")
-    
-    # 如果检测到的编码无效，尝试常见的中文编码
-    possible_encodings = [detected_encoding, 'utf-8', 'gbk', 'gb2312', 'big5']
-    
-    content = None
-    for encoding in possible_encodings:
-        if not encoding:
-            continue
-        try:
-            content = raw_content.decode(encoding)
-            print(f"成功使用编码: {encoding}")
-            break
-        except (UnicodeDecodeError, LookupError):
-            print(f"尝试编码失败: {encoding}")
-    
-    if content is None:
-        raise ValueError("无法解码文件内容，请手动检查编码。")
+    # 使用 UTF-8 解码
+    try:
+        content = raw_content.decode('utf-8')
+        print("成功使用固定编码: utf-8")
+    except UnicodeDecodeError as e:
+        raise ValueError(f"解码失败，请检查文件内容是否为 UTF-8 编码: {e}")
     
     # 过滤掉包含 "ipv6" 的行
     filtered_lines = [line for line in content.splitlines() if 'ipv6' not in line.lower()]
