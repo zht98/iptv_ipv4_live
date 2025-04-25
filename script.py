@@ -9,8 +9,8 @@ def fetch_and_filter():
     raw_content = response.content  # 获取二进制数据
     
     # 自动检测原始编码
-    detected_encoding = chardet.detect(raw_content)['encoding']
-    print(f"检测到的编码: {detected_encoding}")
+    # detected_encoding = chardet.detect(raw_content)['encoding']
+    # print(f"检测到的编码: {detected_encoding}")
     
     # 如果检测到的编码无效，尝试常见的中文编码
     possible_encodings = [detected_encoding, 'utf-8', 'gbk', 'gb2312', 'big5']
