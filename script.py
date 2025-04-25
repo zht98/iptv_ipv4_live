@@ -10,15 +10,24 @@ def fetch_and_filter():
     
     # 自动检测原始编码
     detected_encoding = chardet.detect(raw_content)['encoding']
-    if not detected_encoding:
-        raise ValueError("无法检测到编码，请手动指定文件编码。")
     print(f"检测到的编码: {detected_encoding}")
     
-    # 使用检测到的编码进行解码，并设置错误处理策略为 'replace'
-    try:
-        content = raw_content.decode(detected_encoding, errors='replace')  # 替换无法解码的字符
-    except UnicodeDecodeError as e:
-        raise ValueError(f"解码失败: {e}")
+    # 如果检测到的编码无效，尝试常见的中文编码
+    possible_encodings = [detected_encoding, 'utf-8', 'gbk', 'gb2312', 'big5']
+    
+    content = None
+    for encoding in possible_encodings:
+        if not encoding:
+            continue
+        try:
+            content = raw_content.decode(encoding)
+            print(f"成功使用编码: {encoding}")
+            break
+        except (UnicodeDecodeError, LookupError):
+            print(f"尝试编码失败: {encoding}")
+    
+    if content is None:
+        raise ValueError("无法解码文件内容，请手动检查编码。")
     
     # 过滤掉包含 "ipv6" 的行
     filtered_lines = [line for line in content.splitlines() if 'ipv6' not in line.lower()]
