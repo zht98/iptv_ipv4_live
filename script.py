@@ -1,7 +1,7 @@
 import requests
 
 def fetch_and_filter():
-    url = 'https://xn--rbl-mf3g9f.h.nxog.top/m//tv/'
+    url = 'https://raw.githubusercontent.com/YanG-1989/m3u/main/Gather.m3u'
     
     # 获取文件内容
     response = requests.get(url)
