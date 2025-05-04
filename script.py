@@ -1,7 +1,7 @@
 import requests
 
 def fetch_and_filter():
-    url = 'http://mdxgh.tpddns.cn:9999/new/mdzb.txt'
+    url = 'https://tv.iill.top/m3u/Gather'
     
     # 获取文件内容
     response = requests.get(url)
