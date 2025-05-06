@@ -2,7 +2,7 @@ import requests
 
 def fetch_and_filter():
     url = 'https://tv.iill.top/m3u/Gather'
-    
+
     # 获取文件内容
     response = requests.get(url)
     raw_content = response.content  # 获取二进制数据
